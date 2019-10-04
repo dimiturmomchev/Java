@@ -1,0 +1,93 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Task1 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        String[] inputLiquids = scanner.nextLine().split("\\s+");
+        String[] inputItems = scanner.nextLine().split("\\s+");
+
+        List<Integer> liquinds = new ArrayList<>();
+        List<Integer> items = new ArrayList<>();
+
+        for (int i = 0; i < inputLiquids.length; i++) {
+            liquinds.add(Integer.valueOf(inputLiquids[i]));
+        }
+        for (int i = 0; i < inputItems.length; i++) {
+            items.add(Integer.valueOf(inputItems[i]));
+        }
+
+        Collections.reverse(items);
+
+        int glass = 0;
+        int aluminium = 0;
+        int lithium = 0;
+        int carbofiber = 0;
+
+        while (!liquinds.isEmpty() && !items.isEmpty()) {
+            while (!liquinds.isEmpty() && !items.isEmpty()) {
+
+                int mix = liquinds.get(0) + items.get(0);
+
+                switch (mix) {
+                    case 25:
+                        liquinds.remove(0);
+                        items.remove(0);
+                        glass++;
+                        break;
+                    case 50:
+                        liquinds.remove(0);
+                        items.remove(0);
+                        aluminium++;
+                        break;
+                    case 75:
+                        liquinds.remove(0);
+                        items.remove(0);
+                        lithium++;
+                        break;
+                    case 100:
+                        liquinds.remove(0);
+                        items.remove(0);
+                        carbofiber++;
+                        break;
+                    default:
+                        int increaseValue = items.get(0) + 3;
+                        liquinds.remove(0);
+                        items.set(0, increaseValue);
+                        break;
+                }
+            }
+//            if (!items.isEmpty()){
+//                items.remove(0);
+//            }
+        }
+
+            if (glass!=0&&aluminium!=0&&lithium!=0&&carbofiber!=0) {
+                System.out.println("Wohoo! You succeeded in building the spaceship!");
+            } else {
+                System.out.println("Ugh, what a pity! You didn't have enough materials to build the spaceship.");
+            }
+            if (!liquinds.isEmpty()) {
+                System.out.print("Liquids left: "+ String.join(", ",liquinds.toString().replaceAll("\\[|\\]","")).trim());
+                System.out.println();
+            } else {
+                System.out.println("Liquids left: none");
+            }
+            if (!items.isEmpty()) {
+                System.out.print("Physical items left: "+String.join(", ",items.toString().replaceAll("\\[|\\]","")).trim());
+                System.out.println();
+            } else {
+                System.out.println("Physical items left: none");
+            }
+            System.out.println("Aluminium: " + aluminium);
+            System.out.println("Carbon fiber: " + carbofiber);
+            System.out.println("Glass: " + glass);
+            System.out.println("Lithium: " + lithium);
+
+
+
+    }
+}

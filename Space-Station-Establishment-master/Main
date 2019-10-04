@@ -1,0 +1,171 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class Task2 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int n = Integer.parseInt(scanner.nextLine());
+
+        char[][] matrix = new char[n][];
+
+        int stephenRow = 0;
+        int stephenCol = 0;
+
+        List<Integer> blacholes = new ArrayList<>();
+        int blackhowrow=0;
+        int blackhowcol=0;
+        int blackhowrowTwo = 0;
+        int blackhowrcolTwo =0;
+        boolean blackholeeee = false;
+
+        for (int i = 0; i < n; i++) {
+            String line = scanner.nextLine();
+            matrix[i] = line.toCharArray();
+            if (line.contains("S")) {
+                stephenRow = i;
+                stephenCol = line.indexOf("S");
+            }
+            if (line.contains("O")){
+                blackhowrow=i;
+                blackhowcol=line.indexOf("O");
+                blacholes.add(blackhowrow);
+                blacholes.add(blackhowcol);
+                blackholeeee=true;
+            }
+        }
+        if (blackholeeee){
+
+            blackhowrow=blacholes.get(0);
+            blackhowcol=blacholes.get(1);
+            blackhowrowTwo = blacholes.get(2);
+            blackhowrcolTwo = blacholes.get(3);
+        }
+
+
+        int starPower = 0;
+        boolean outOfTheGalaxy = false;
+
+        while (starPower == 50||!outOfTheGalaxy) {
+            if (starPower>=50){
+                break;
+            }
+
+            String direction = scanner.next();
+            matrix[stephenRow][stephenCol]='-';
+
+            if (direction.equals("up")) {
+                stephenRow--;
+                if (!canMove(stephenRow, stephenCol, matrix)){
+                    outOfTheGalaxy=true;
+                    break;
+                }
+                if (Character.isDigit(matrix[stephenRow][stephenCol])) {
+                    starPower += Integer.parseInt(String.valueOf(matrix[stephenRow][stephenCol]));
+                    matrix[stephenRow][stephenCol]='-';
+                }else if (matrix[stephenRow][stephenCol]=='O') {
+                    if (stephenRow == blackhowrow && stephenCol == blackhowcol) {
+                        matrix[stephenRow][stephenCol] = '-';
+                        stephenRow = blackhowrowTwo;
+                        stephenCol = blackhowrcolTwo;
+                    } else {
+                        matrix[stephenRow][stephenCol] = '-';
+                        stephenRow = blackhowrow;
+                        stephenCol = blackhowrow;
+                    }
+                }
+
+            } else if (direction.equals("down")) {
+                stephenRow++;
+                if (!canMove(stephenRow, stephenCol, matrix)){
+                    outOfTheGalaxy=true;
+                    break;
+                }
+                if (Character.isDigit(matrix[stephenRow][stephenCol])) {
+                    starPower += Integer.parseInt(String.valueOf(matrix[stephenRow][stephenCol]));
+                    matrix[stephenRow][stephenCol]='-';
+                }else if (matrix[stephenRow][stephenCol]=='O'){
+                    if (stephenRow==blackhowrow&&stephenCol==blackhowcol){
+                        matrix[stephenRow][stephenCol]='-';
+                        stephenRow=blackhowrowTwo;
+                        stephenCol=blackhowrcolTwo;
+                    }else {
+                        matrix[stephenRow][stephenCol]='-';
+                        stephenRow=blackhowrow;
+                        stephenCol=blackhowrow;
+                    }
+
+                }
+            } else if (direction.equals("left")) {
+                stephenCol--;
+                if (!canMove(stephenRow, stephenCol, matrix)){
+                    outOfTheGalaxy=true;
+                    break;
+                }
+                if (Character.isDigit(matrix[stephenRow][stephenCol])) {
+                    starPower += Integer.parseInt(String.valueOf(matrix[stephenRow][stephenCol]));
+                    matrix[stephenRow][stephenCol]='-';
+                }else if (matrix[stephenRow][stephenCol]=='O') {
+                    if (stephenRow == blackhowrow && stephenCol == blackhowcol) {
+                        matrix[stephenRow][stephenCol] = '-';
+                        stephenRow = blackhowrowTwo;
+                        stephenCol = blackhowrcolTwo;
+                    } else {
+                        matrix[stephenRow][stephenCol] = '-';
+                        stephenRow = blackhowrow;
+                        stephenCol = blackhowrow;
+                    }
+                }
+            } else if (direction.equals("right")) {
+                stephenCol++;
+                if (!canMove(stephenRow, stephenCol, matrix)){
+                    outOfTheGalaxy=true;
+                    break;
+                }
+
+                if (Character.isDigit(matrix[stephenRow][stephenCol])) {
+                    starPower += Integer.parseInt(String.valueOf(matrix[stephenRow][stephenCol]));
+                    matrix[stephenRow][stephenCol]='-';
+                }else if (matrix[stephenRow][stephenCol]=='O') {
+                    if (stephenRow == blackhowrow && stephenCol == blackhowcol) {
+                        matrix[stephenRow][stephenCol] = '-';
+                        stephenRow = blackhowrowTwo;
+                        stephenCol = blackhowrcolTwo;
+                    } else {
+                        matrix[stephenRow][stephenCol] = '-';
+                        stephenRow = blackhowrow;
+                        stephenCol = blackhowrow;
+                    }
+                }
+            }
+
+        }
+
+        if (outOfTheGalaxy){
+            System.out.println("Bad news, the spaceship went to the void.");
+        }else {
+            matrix[stephenRow][stephenCol]='S';
+            System.out.println("Good news! Stephen succeeded in collecting enough star power!");
+        }
+
+        System.out.println("Star power collected: "+starPower);
+        printMatirx(matrix);
+
+
+
+    }
+    private static boolean canMove(int newRow, int newCol, char[][] matrix) {
+        return newRow  >= 0 && newRow  < matrix.length && newCol >= 0 && newCol < matrix[newRow].length;
+    }
+
+    private static void printMatirx(char[][] matrix) {
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                System.out.print(matrix[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
